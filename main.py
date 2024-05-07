@@ -1,3 +1,3 @@
-from app import JDPUApp
+from app import JdpuPyFramework
 
-app = JDPUApp()
+app = JdpuPyFramework()

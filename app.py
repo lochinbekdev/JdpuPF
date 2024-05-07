@@ -1,6 +1,6 @@
 from webob import Request, Response
 
-class JDPUApp:
+class JdpuPyFramework:
 
     def __call__(self, environ, start_response):
         request=Request(environ)
