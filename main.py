@@ -1,3 +1,3 @@
-from app import PPFApp
+from app import JDPUApp
 
-app = PPFApp()
+app = JDPUApp()
