@@ -20,3 +20,4 @@ def news(request, response):
     response.text = "Hello from News Page"
 
 
+  
