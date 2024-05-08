@@ -11,8 +11,12 @@ def home(request,response):
 def about(request,response):
     response.text= "Hello from the About Page"
 
-@app.route("/lochin")
+@app.route("/ads")
 def about(request,response):
-    response.text= "Hello from the Lochin Page"
+    response.text= "Hello from the Ads Page"
+    
+@app.route("/news")
+def news(request, response):
+    response.text = "Hello from News Page"
 
 
