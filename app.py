@@ -1,16 +1,39 @@
 from webob import Request, Response
 
-class JdpuPyFramework:
+class JdpuPF:
 
-    def __call__(self, environ, start_response):
-        request=Request(environ)
+    def __init__(self):
+        self.routes=dict()
+
+    def __call__(self,environ,start_response):
+        request = Request(environ)
         response=self.handle_request(request)
-        return response(environ,start_response)
-    
+        return response(environ, start_response)
+
 
     def handle_request(self,request):
-        user_agent=request.environ.get("HTTP_USER_AGENT","User Agent Not Found")
-        response=Response()
-        response.text=f"Hello my friend with user agent {user_agent}"
+        response = Response()
+        handler=self.find_handler(request)
 
+        if handler is not None:
+            handler(request,response)
+        else:
+            self.deafult_response(response)
         return response
+
+    def deafult_response(self,response):
+        response.status_code = 404
+        response.text = 'Sorry page not Found.'
+
+
+    def find_handler(self,request):
+        for path, handler in self.routes.items():
+            if path == request.path:
+                return handler
+
+
+    def route(self,path):
+        def wrapper(handler):
+            self.routes[path] = handler
+            return handler
+        return wrapper
