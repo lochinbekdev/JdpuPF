@@ -19,5 +19,7 @@ def about(request,response):
 def news(request, response):
     response.text = "Hello from News Page"
 
-
-  
+@app.route("/hello/{name}")
+def greeting(request, response ,name):
+    response.text = f"Hello , {name} :)"
+    
