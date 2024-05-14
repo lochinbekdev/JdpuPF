@@ -1,11 +1,11 @@
 from webob import Request, Response
 from parse import parse
+import inspect
 
 class JdpuPF:
 
     def __init__(self):
         self.routes=dict()
-
 
     def __call__(self,environ,start_response):
         request = Request(environ)
@@ -17,6 +17,14 @@ class JdpuPF:
         handler, kwargs = self.find_handler(request)
 
         if handler is not None:
+            if inspect.isclass(handler):
+                handler = getattr(handler(),request.method.lower(),None)
+
+                if handler is None:
+                    response.status_code = 405
+                    response.text = "Method Not Allowed"
+                    return response
+                
             handler(request,response,**kwargs)
         else:
             self.deafult_response(response)

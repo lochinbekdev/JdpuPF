@@ -6,7 +6,6 @@ app = JdpuPF()
 def home(request,response):
     response.text= "Hello from the Home Page"
 
-
 @app.route("/about")
 def about(request,response):
     response.text= "Hello from the About Page"
@@ -14,8 +13,7 @@ def about(request,response):
 @app.route("/ads")
 def about(request,response):
     response.text= "Hello from the Ads Page"
-    
-
+   
 @app.route("/news")
 def news(request, response):
     response.text = "Hello from News Page"
@@ -24,3 +22,10 @@ def news(request, response):
 def greeting(request, response ,name):
     response.text = f"Hello , {name} :)"
     
+@app.route("/books")
+class Books:
+    def get(self,request, response):
+        response.text = "Books page"
+
+    def post(self,request, response):
+        response.text = "Endpoint to create a book"
