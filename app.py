@@ -34,6 +34,9 @@ class JdpuPF:
         return None, None
            
     def route(self,path):
+        
+        assert path not in self.routes, "Dublicate route. Pleace change the URL."
+        
         def wrapper(handler):
             self.routes[path] = handler
             return handler

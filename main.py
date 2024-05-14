@@ -15,6 +15,7 @@ def about(request,response):
 def about(request,response):
     response.text= "Hello from the Ads Page"
     
+
 @app.route("/news")
 def news(request, response):
     response.text = "Hello from News Page"
