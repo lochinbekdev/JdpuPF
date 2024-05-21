@@ -1,5 +1,7 @@
 from webob import Request, Response
 from parse import parse
+import wsgiadapter
+import requests
 
 class JdpuPF:
 
@@ -41,3 +43,8 @@ class JdpuPF:
             self.routes[path] = handler
             return handler
         return wrapper
+    
+    def test_session(self):
+        session=requests.Session()
+        session.mount('http://testserver', wsgiadapter.WSGIAdapter(self))
+        return session
