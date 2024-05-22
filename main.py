@@ -18,3 +18,9 @@ class Books:
 
     def post(self,request, response):
         response.text = "Endpoint to create a book"
+        
+
+def new_handler(req,resp):
+    resp.text = "From new handler"
+        
+    app.add_route("/new-handler",new_handler)
