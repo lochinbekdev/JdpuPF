@@ -91,4 +91,4 @@ def test_template_handler(app,test_client):
     
     assert "Best title" in response.text
     assert "Best body" in response.text
-    assert "text/html" in response["Content-type"]
+    assert "text/html" in response.headers["Content-type"]
