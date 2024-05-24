@@ -24,3 +24,13 @@ def new_handler(req,resp):
     resp.text = "From new handler"
         
     app.add_route("/new-handler",new_handler)
+    
+def on_exception(req,resp,exc):
+    resp.text = str(exc)
+    
+    
+app.add_exception_handler(on_exception)
+
+@app.route("/exception")
+def exception_throwing_handler(req,resp):
+    raise AttributeError("Some exception")

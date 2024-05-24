@@ -14,6 +14,8 @@ class JdpuPF:
         self.template_env = Environment(
             loader=FileSystemLoader(os.path.abspath(template_dir))
         )
+        
+        self.exception_handler = None
 
     def __call__(self,environ,start_response):
         request = Request(environ)
@@ -32,8 +34,13 @@ class JdpuPF:
                     response.status_code = 405
                     response.text = "Method Not Allowed"
                     return response
-                
-            handler(request,response,**kwargs)
+            try:  
+                handler(request,response,**kwargs)
+            except Exception as e:
+                if self.exception_handler is not None:
+                    self.exception_handler(request,response,e)
+                else:
+                    raise e
         else:
             self.deafult_response(response)
         return response
@@ -69,3 +76,6 @@ class JdpuPF:
             context = {}
             
         return self.template_env.get_template(template_name).render(**context).encode()
+    
+    def add_exception_handler(self,handeler):
+        self.exception_handler = handeler
