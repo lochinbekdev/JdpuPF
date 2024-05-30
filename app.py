@@ -5,10 +5,11 @@ import requests
 import inspect
 from jinja2 import Environment,FileSystemLoader
 import os
+from whitenoise import WhiteNoise
 
 class JdpuPF:
 
-    def __init__(self,template_dir="templates"):
+    def __init__(self,template_dir="templates",static_dir="static"):
         self.routes=dict()
         
         self.template_env = Environment(
@@ -16,8 +17,13 @@ class JdpuPF:
         )
         
         self.exception_handler = None
+        
+        self.whitenoise = WhiteNoise(self.wsgi_app,root="static")
 
     def __call__(self,environ,start_response):
+        return self.whitenoise(environ,start_response)
+    
+    def wsgi_app(self,environ,start_response):
         request = Request(environ)
         response=self.handle_request(request)
         return response(environ, start_response)
