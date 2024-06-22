@@ -1,5 +1,7 @@
 import pytest
 
+from middleware import Middleware
+
 def test_basic_route_adding(app):
     @app.route("/home")
     def home(req,resp):
@@ -110,10 +112,37 @@ def test_custom_exception_handler(app,test_client):
     
     
 def test_non_existent_static_file(test_client):
-    assert test_client.get("http://testserver/nonexixtent.css").status_code == 404
+    assert test_client.get("http://testserver/static/nonexixtent.css").status_code == 404
     
 def test_serving_static_files(test_client):
-    response = test_client.get("http://testserver/test.css")
+    response = test_client.get("http://testserver/static/test.css")
    
-    
     assert response.text == "body{ background-color: red;}"
+    
+
+def test_middleware_methods_are_called(app,test_client):
+    process_request_called = False
+    process_response_called = False
+    class SimpleMiddleware(Middleware):
+        def __init__(self,app):
+            super().__init__(app)
+            
+        def process_request(self,req):
+            nonlocal process_request_called
+            process_request_called = True
+        
+        def process_response(self,req,resp):
+            nonlocal process_response_called 
+            process_response_called = True
+        
+        
+        app.add_middleware(SimpleMiddleware)
+        
+        @app.route("/home")
+        def index(req,resp):
+            resp.text="from handler"
+            
+        test_client.get("http://testserver/home")            
+    
+        assert process_response_called is True
+        assert process_request_called is True

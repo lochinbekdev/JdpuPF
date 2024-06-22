@@ -1,4 +1,5 @@
 from app import JdpuPF
+from middleware import Middleware
 
 app = JdpuPF()
 
@@ -34,3 +35,16 @@ app.add_exception_handler(on_exception)
 @app.route("/exception")
 def exception_throwing_handler(req,resp):
     raise AttributeError("Some exception")
+
+class LoggingMiddleware(Middleware):
+    
+    def __init__(self, app):
+        super().__init__(app)
+        
+    def process_request(self, req):
+        print("request is beign called")
+        
+    def process_response(self, req, resp):
+        print("response has been generate")
+        
+app.add_middleware(LoggingMiddleware)

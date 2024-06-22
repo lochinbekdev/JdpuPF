@@ -1,11 +1,12 @@
 from webob import Request, Response
-from parse import parse
+import parse
 import wsgiadapter
 import requests
 import inspect
 from jinja2 import Environment,FileSystemLoader
 import os
 from whitenoise import WhiteNoise
+from middleware import Middleware
 
 class JdpuPF:
 
@@ -18,10 +19,17 @@ class JdpuPF:
         
         self.exception_handler = None
         
-        self.whitenoise = WhiteNoise(self.wsgi_app,root="static")
+        self.whitenoise = WhiteNoise(self.wsgi_app,root=static_dir, prefix="/static") 
+        
+        self.middleware = Middleware(self)
 
     def __call__(self,environ,start_response):
-        return self.whitenoise(environ,start_response)
+        path_info = environ["PATH_INFO"]
+        
+        if path_info.startswith("/static"):
+            return self.whitenoise(environ,start_response)
+        
+        return self.middleware(environ,start_response)
     
     def wsgi_app(self,environ,start_response):
         request = Request(environ)
@@ -85,3 +93,6 @@ class JdpuPF:
     
     def add_exception_handler(self,handeler):
         self.exception_handler = handeler
+        
+    def add_middleware(self,middleware_cls):
+        self.middleware.add(middleware_cls)
