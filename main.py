@@ -3,9 +3,13 @@ from middleware import Middleware
 
 app = JdpuPF()
 
-@app.route('/home')
+@app.route('/home',allowed_methods=["get"])
 def home(request,response):
-    response.text= "Hello from the Home Page"
+    if request.method == "GET":
+        response.text = "Hello from the Home Page"
+    else:
+        response.status.code = 405
+        response.text = "Method not allowed"
 
 
 @app.route("/hello/{name}")

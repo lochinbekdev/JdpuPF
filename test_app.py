@@ -12,11 +12,12 @@ def test_dublicate_routes_throws_exception(app):
     @app.route("/home")
     def home(req,resp):
         resp.text = "Hello from home Page" 
-    
+        assert resp.text == "Hello from home Page"    
     with pytest.raises(AssertionError):
         @app.route("/home")
         def home2(req,resp):
             resp.text = "Hello from home2 Page" 
+
             
 def test_requests_can_be_sent_by_test_client(app,test_client):
     @app.route("/home")
@@ -146,3 +147,13 @@ def test_middleware_methods_are_called(app,test_client):
     
         assert process_response_called is True
         assert process_request_called is True
+
+def test_allowed_methods_for_function_based_handlers(app,test_client):
+    @app.route("/home",allowed_methods["post"])
+    def home(req,resp):
+        resp.text = "Hello from hom"
+        
+    resp = test_client.get("http://testserver/home")
+    
+    assert resp.status_code == 405
+    assert resp.text == "Method Not Allowed"
