@@ -7,7 +7,7 @@
 
 ### Installation
 
-```toml
+```shell
 pip install JdpuPF
 ```
 
