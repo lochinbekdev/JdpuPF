@@ -18,7 +18,7 @@ pip install JdpuPF
 ### Basic usage:
 
 
-```toml
+```shell
 from app import JdpuPF
 from middleware import Middleware
 
@@ -53,7 +53,7 @@ class Books:
 The recommended way of writing unit tests is with `pytest`. There are two built in fixtures that you may want to use when writing unit tests with JdpuPF. The first one is app which is an instance of the main API class:
 
 
-```toml
+```shell
 def test_dublicate_routes_throws_exception(app):
     @app.route("/home")
     def home(req,resp):
@@ -67,7 +67,7 @@ def test_dublicate_routes_throws_exception(app):
 
 The other one is `client` that you can use to send HTTP requests to your handlers. It is based on the famous `requests` and it should feel very familiar:
 
-```toml
+```shell
 def test_parameterized_routing(app,test_client):
     @app.route("/hello/{name}")
     def greeting(request, response ,name):

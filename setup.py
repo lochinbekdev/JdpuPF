@@ -13,12 +13,12 @@ from setuptools import find_packages, setup, Command
 
 # Package meta-data.
 NAME = 'JdpuPF'
-DESCRIPTION = 'Personal python Framework.'
+DESCRIPTION = 'Personal Python Framework.'
 URL = 'https://github.com/lochinbekdev/JdpuPF'
 EMAIL = 'lochinbekabduvoitov8@gamil.com'
 AUTHOR = 'Lochinbek Abduvoitov'
 REQUIRES_PYTHON = '>=3.9.0'
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
