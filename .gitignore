@@ -5,3 +5,4 @@ __pycache__/
 .pytest_cache
 dist
 JdpuPF.egg-info
+setup.py
